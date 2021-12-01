@@ -20,12 +20,12 @@ def main(argv):
 
             data_as_number = list(map(int, data_raw))
 
-            code = importlib.import_module(f"day{day}")
+            code = importlib.import_module(f"src.day{day}")
             code.main(data_raw,data_as_number)
         case _:
             for i in range(CURRENT_DAY):
                 i =+1
-                code = importlib.import_module(f"day{i}")
+                code = importlib.import_module(f"src.day{i}")
                 (data_raw, data_as_number) = getInput(i)
                 print(f"Day {i}:")
                 code.main(data_raw,data_as_number)

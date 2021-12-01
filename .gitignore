@@ -1,2 +1,4 @@
 __pycache__
-inputs
+inputs/*
+test_data/*
+!.gitkeep
