@@ -8,13 +8,14 @@ def problem1(data):
 
 def problem2(data):
     count = 0
-    temp = []
-    for i in range(len(data)-2):
-        temp.append(sum(data[i:i+3]))
+    last_window = sum(data[:3])
 
-    for i in range(1,len(temp)):
-        if temp[i-1] < temp[i]:
+    for i in range(1,len(data)-2):
+        sliding_window = sum(data[i:i+3])
+        if last_window < sliding_window:
             count += 1
+
+        last_window = sliding_window
     return count
 
 def main(_,data):
