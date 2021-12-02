@@ -6,14 +6,17 @@ import os
 
 YEAR = 2021
 
-CURRENT_DAY = (datetime.now() - datetime.strptime(f"{YEAR}-11-30","%Y-%m-%d") ).days
+CURRENT_DAY = min((datetime.now() - datetime.strptime(f"{YEAR}-11-30","%Y-%m-%d") ).days,25)
 
 def getInput(day):
     data_raw = []
     with open(f"inputs/{day}") as inputfile:
         data_raw = inputfile.readlines()
-
-    data_as_number = list(map(int, data_raw))
+    try:
+        data_as_number = list(map(int, data_raw))
+    except:
+        data_as_number = []
+        pass
     return (data_raw, data_as_number)
 
 def fetch(day):
@@ -39,8 +42,12 @@ def main(argv):
             data_raw = []
             with open(f"test_data/{file}") as inputfile:
                 data_raw = inputfile.readlines()
+            try:
 
-            data_as_number = list(map(int, data_raw))
+                data_as_number = list(map(int, data_raw))
+            except:
+                data_as_number = []
+                pass
 
             code = importlib.import_module(f"src.day{day}")
             code.main(data_raw,data_as_number)
