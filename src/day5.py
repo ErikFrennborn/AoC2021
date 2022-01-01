@@ -1,17 +1,25 @@
-def problem1(lines, max_x, max_y):
+def problem(lines, max_x, max_y, problem2):
     grid = [[ 0 for _ in range(max_x + 1)] for _ in range(max_y +1 )]
 
     # Population grid
     for line in lines:
-        # Diagonal
-        if (line.start.x - line.end.x != 0) and (line.start.y - line.end.y != 0):
-            continue
-        reverse_x = line.start.x > line.end.x
-        reverse_y = line.start.y > line.end.y
+        delta_x = line.end.x - line.start.x
+        delta_y = line.end.y - line.start.y
 
-        for y in range(line.start.y, line.end.y + (-1 if reverse_y else 1), -1 if reverse_y else 1):
-            for x in range(line.start.x, line.end.x +(-1 if reverse_x else 1), -1 if reverse_x else 1):
-                grid[y][x] += 1
+        length = abs(delta_x) if delta_x != 0 else abs(delta_y)
+        length += 1
+        step_x = 0 if delta_x == 0 else int(delta_x/abs(delta_x))
+        step_y = 0 if delta_y == 0 else int(delta_y/abs(delta_y))
+        # Diagonal
+        if not problem2:
+            if (line.start.x - line.end.x != 0) and (line.start.y - line.end.y != 0):
+                continue
+        x = line.start.x
+        y = line.start.y
+        for _ in range(length):
+            grid[y][x] += 1
+            x += step_x
+            y += step_y
 
     # Get result
     count = 0
@@ -19,10 +27,6 @@ def problem1(lines, max_x, max_y):
         for value in row:
             count += int(value > 1)
 
-    return count
-
-def problem2(data):
-    count = 0
     return count
 
 class Coord:
@@ -65,9 +69,8 @@ def parseInput(data):
     return (lines, max_x, max_y)
 
 def main(data,_):
-    (lines, max_x, max_y) = parseInput(data)
-    print(f"Problem 1: {problem1(lines, max_x, max_y)}")
-    print(f"Problem 2: {problem2(data)}")
+    print(f"Problem 1: {problem(*parseInput(data), False)}")
+    print(f"Problem 2: {problem(*parseInput(data),True)}")
 
 def test_problem1():
     data = """0,9 -> 5,9
@@ -81,8 +84,18 @@ def test_problem1():
 0,0 -> 8,8
 5,5 -> 8,2""".split("\n")
 
-    assert problem1(*parseInput(data)) == 5
+    assert problem(*parseInput(data),False) == 5
 
+def test_problem2():
+    data = """0,9 -> 5,9
+8,0 -> 0,8
+9,4 -> 3,4
+2,2 -> 2,1
+7,0 -> 7,4
+6,4 -> 2,0
+0,9 -> 2,9
+3,4 -> 1,4
+0,0 -> 8,8
+5,5 -> 8,2""".split("\n")
 
-#  def test_problem2():
-#      assert problem2([199,200,208,210,200,207,240,269,260,263]) == 5
+    assert problem(*parseInput(data),True) == 12
