@@ -32,3 +32,18 @@ def main(data_raw,_):
     print(f"Problem 1: {problem1(data_raw)}")
     print(f"Problem 2: {problem2(data_raw)}")
 
+def test_problem1():
+    assert(problem1("""forward 5
+down 5
+forward 8
+up 3
+down 8
+forward 2""".split('\n')) == 150)
+
+def test_problem2():
+    assert(problem2("""forward 5
+down 5
+forward 8
+up 3
+down 8
+forward 2""".split('\n')) == 900)

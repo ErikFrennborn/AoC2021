@@ -1,20 +1,22 @@
 def problem(init_state, NUMBER_OF_DAY):
-    state = init_state
-    # tick
-    CYCLES = 6
+    CYCLES = 7
     NEW_FISH_PENALY = 2
+    state = [0 for _ in range(CYCLES + NEW_FISH_PENALY)]
+    # init
+    for fish in init_state:
+        state[fish] += 1
+
+    # tick
     for _ in range(NUMBER_OF_DAY):
-        next_state = []
-        new_fishs = []
-        for fish in state:
-            if fish == 0:
-                # create new fish
-                new_fishs.append(CYCLES + NEW_FISH_PENALY)
-                next_state.append(CYCLES)
-            else:
-                next_state.append(fish-1)
-        state = next_state + new_fishs
-    return len(state)
+        number_of_fishs_to_dived = state.pop(0)
+        state[6] += number_of_fishs_to_dived
+        # create new fishs
+        state.append(number_of_fishs_to_dived)
+
+    result = 0
+    for i in range(CYCLES+NEW_FISH_PENALY):
+        result += state[i]
+    return result
 
 def main(data,_):
     parsedInput = list(map(int,data[0].strip().split(',')))
